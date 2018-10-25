@@ -1,0 +1,26 @@
+fieldset{
+  font-weight: bold;
+  font-size: 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif ;
+  margin-left: 2%;
+  margin-bottom: 50px;
+  width: 35%;
+  outline-style: dotted;
+  margin-top: 25px;
+}
+body{
+
+  background-color: #faaa;
+  outline-style: groove;
+}
+header{
+  position: absolute;
+}
+overskrift{
+  font-family: "Comic Sans MS";
+  font-size: 30px;
+  position: absolute;
+  width:1000px;
+  margin-left: 50%;
+  margin-right: 50%;
+}

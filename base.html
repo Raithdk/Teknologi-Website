@@ -1,0 +1,190 @@
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="style.css">
+ <body>
+
+    <h1 id="dato" style=" position: absolute; margin-top:0px; margin-left:0.5%;"></h1>
+
+     <br>
+
+     <overskrift>
+       <p style="position:absolute;">Stop madspild!</p>
+     </overskrift>
+
+     <fieldset>
+     <p>Hvilken vare har du?</p>
+     <input type="text" id="vare1" name="varee">
+
+     <br>
+
+     <p>Hvilken dag udløber varen?:</p>
+
+     <input type="number" min="1" max="30" id="udlobdd" placeholder="dd">
+     <input type="number" id="udlobmm" max="12" placeholder="mm">
+     <input type="number" id="udlobyy" placeholder="yy">
+
+     <br><br><br>
+
+        <input type="submit" name="indsend" onclick="hvisudlob()">
+      </fieldset>
+
+
+
+  <script>
+    var dm = new Date();
+    var d1 = new Date();
+    var dy = new Date();
+    var udlob;
+    var dag = d1.getDate();
+    var maaned = dm.getMonth() ;
+    var aar = dy.getYear() -100;
+    var maaned1 = maaned + 1;
+
+    var dato = "Datoen idag er: " + dag + "-" + maaned1 +"-"+ aar;
+    var daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+  //  var checkDayOverflow = daysInMonth[maaned];
+
+    var testUdlobM;
+    var testUdlobY;
+    var testUdLobD;
+    var udlobd;
+    var udlobm;
+    var udloby;
+    var dageTilUd = 0;
+    var i;
+    var vare;
+
+
+    document.getElementById("dato").innerHTML = dato;
+  // document.getElementById("checkDayOverflow").innerHTML = checkDayOverflow;
+
+
+    function hvisudlob(){
+      vare = document.getElementById("vare1").value;
+      udlobd = document.getElementById("udlobdd").value;
+      udlobm = document.getElementById("udlobmm").value;
+      udloby = document.getElementById("udlobyy").value;
+
+      i = 0;
+      testUdLobD = udlobd - dag;
+      testUdlobY = udloby - aar;
+      testUdlobM = udlobm - maaned;
+
+      checkYearOverflow();
+      checkVare();
+      checkDatoOverflow();
+      checkUdlobY();
+      checkSkudAar();
+      printdag();
+      dageTilUd = 0;
+
+    //  printdag();
+    }
+
+    //checker om den er udløbet med år
+    function checkUdlobY(){
+
+      if( testUdlobY > 1 ){
+        dageTilUd = (testUdlobY-1)*365;
+      } else if (testUdlobY==0) {
+        dageTilUd = 0;
+      }
+      else if(testUdlobY<0){
+        dageTilUd = testUdlobY*365;
+      }
+      /*else{
+        alert("error Year");
+      }*/
+    //  alert(dageTilUd + " y");
+      checkUdLobM();
+      }
+    //Checker om den er udløbet med måneder
+    function checkUdLobM(){
+      if (testUdlobY>0) {
+        for(i = maaned1; i<=12;i++){
+          dageTilUd = dageTilUd + daysInMonth[i-1];
+
+        }
+        for(i=0; i<(udlobm-1); i++){
+          dageTilUd = dageTilUd + daysInMonth[i];
+
+        }
+      }
+// Hvis udløbsmåneden er over den nuværende måned.
+      else if(udlobm>maaned){
+        for ( i = maaned1; i < udlobm; i++ ){
+          dageTilUd = dageTilUd + daysInMonth[i-1];
+        }}
+// hvis udlobsmåneden er under er under den aktuelle måned kør dette
+      else if (udlobm<maaned){
+        for (i=udlobm ; i < maaned1 ; i++){
+          dageTilUd = dageTilUd - daysInMonth[i-1];
+        }
+      }
+
+    //  alert(dageTilUd + " m");
+      checkUdLobD();
+      //Slutning af checkUdLobM
+    }
+
+
+    //checker om den er udløbet med dage
+      function checkUdLobD(){
+
+      if (testUdLobD>0) {
+        dageTilUd = dageTilUd + testUdLobD;
+
+      }
+      else if (testUdLobD<0){
+
+        dageTilUd = dageTilUd + testUdLobD;
+      }
+      else {
+        alert("Error Day");
+      }
+      //alert(dageTilUd + " d");
+
+}
+    function checkSkudAar(){
+      if ((udloby%4)==0) {
+        dageTilUd++;
+      }
+    }
+
+      function printdag(){
+
+      if (dageTilUd > 0) {
+        alert("der er " + dageTilUd +" dage til " + vare + " udløber");
+      }
+      else if (dageTilUd==0) {
+        alert("Din vare udløber idag!");
+      }
+      else if (dageTilUd<0){
+
+      alert("Din vare udløb for " + dageTilUd + " dage siden." );
+      }else {
+        alert("error print");
+      }
+
+    }
+
+    function checkVare(){
+      if (vare==""){
+        vare = "null";
+      }
+    }
+    function checkDatoOverflow(){
+      if(udlobm > 12 || udlobd > 31 ){
+        alert("FEJL I INDTASTET DATO")
+      }
+    }
+    function checkYearOverflow(){
+      if (udloby>2000) {
+        testUdlobY = testUdlobY - 2000;
+      }
+    }
+  </script>
+
+
+</body>
+</html>
